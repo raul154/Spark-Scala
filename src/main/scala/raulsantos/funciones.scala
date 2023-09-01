@@ -5,50 +5,55 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 object funciones{
 
         def crearSpark:SparkSession={
-        val spark=SparkSession
-        .builder
-        .appName("ejercicio1")
-        .master("local[*]")
-        .getOrCreate()
 
-        spark
+                val spark=SparkSession
+                  .builder
+                  .appName("ejercicio1")
+                  .master("yarn")
+                  .getOrCreate()
+
+                spark
         }
 
         def dfProducts(spark:SparkSession):DataFrame={
 
-        val productos=spark.read
-        .option("header","true")
-        .option("delimiter",",")
-        .csv("data/products.csv")
-        .selectExpr("CAST (product_id as INT)",
-        "product_name as product_name",
-        "CAST(price AS DECIMAL(13,2))")
+                val productos=spark.read
+                  .option("header","false")
+                  .option("delimiter","\u0001")
+                  .csv("hdfs://nameservice1/user/hive/warehouse/TFM_raulsantos.db/products/productss.csv")
+                .selectExpr("CAST (_c0 as INT) AS product_id",
+                "_c1 as product_name",
+                "CAST(_c2 AS DECIMAL(13,2)) AS price")
 
-        productos
+                productos
         }
 
         def dfSales(spark:SparkSession):DataFrame={
-        val sales=spark.read
-        .option("header","true")
-        .csv("data/sales.csv")
-        .selectExpr("CAST(order_id AS INT) as order_id",
-        "CAST(product_id AS INT) as product_id",
-        "CAST(seller_id AS INT) as seller_id",
-        "CAST(date AS DATE) as date",
-        "CAST(num_pieces_sold AS INT) as num_pieces_sold",
-        "bill_raw_text",
-        "CAST(product_id_num AS INT) as product_id_num")
-        sales
+
+                val sales=spark.read
+                  .option("header","false")
+                  .option("delimiter","\u0001")
+                  .csv("hdfs://nameservice1/user/hive/warehouse/TFM_raulsantos.db/sales/saless.csv")
+                .selectExpr("CAST(_c0 AS INT) as order_id",
+                "CAST(_c1 AS INT) as product_id",
+                "CAST(_c2 AS INT) as seller_id",
+                "CAST(_c3 AS DATE) as date",
+                "CAST(_c4 AS INT) as num_pieces_sold",
+                "_c5 AS bill_raw_text",
+                "CAST(_c6 AS INT) as product_id_num")
+                sales
         }
 
         def dfSellers(spark:SparkSession):DataFrame={
-        val sellers=spark.read
-        .option("header","true")
-        .csv("data/sellers.csv")
-        .selectExpr("CAST(seller_id AS INT) as seller_id",
-        "seller_name",
-        "CAST(daily_target AS DECIMAL (13,2)) AS daily_target")
 
-        sellers
+                val sellers=spark.read
+                  .option("header","false")
+                  .option ("delimiter", "\u0001")
+                  .csv("hdfs://nameservice1/user/hive/warehouse/TFM_raulsantos.db/sellers/sellerss.csv")
+                .selectExpr("CAST(_c0 AS INT) AS seller_id",
+                "_c1 AS seller_name",
+                "CAST(_c2 AS DECIMAL (13,2)) AS daily_target")
+
+                sellers
         }
 }
