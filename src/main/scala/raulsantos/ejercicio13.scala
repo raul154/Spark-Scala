@@ -51,14 +51,14 @@ object ejercicio13 {
                           .write
                           .mode("overwrite") //Para sobreescribir el DF si ya existiera otro con el mismo nombre
                           .option("header", "true")
-                          .format("csv").save("/home/cesga/tec_sis3/resultados_ejercicio13/ejercicio13_csv") //Guardamos el resultado en el escritorio
+                          .format("csv").save("resultados_ejercicio13/ejercicio13_csv") //Guardamos el resultado en el escritorio
 
                         val DfFinalTsv = DfFinal
                           .write
                           .mode("overwrite")
-                          .option("header", "true")
+                          .option("header", "false")
                           .option("delimiter", "\t") //Para generar un tsv basta con establecer una tabulación como separador
-                          .format("csv").save("/home/cesga/tec_sis3/resultados_ejercicio13/ejercicio13_tsv")
+                          .format("csv").save("resultados_ejercicio13/ejercicio13_tsv")
                 }
                 val t_fin = System.nanoTime()
                 val duration = Duration(t_fin - t_ini, NANOSECONDS)
