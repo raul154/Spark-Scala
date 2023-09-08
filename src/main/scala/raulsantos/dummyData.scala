@@ -20,7 +20,7 @@ object dummyData {
     val realizar_calculos = {
 
       // Establecemos las restricciones de los datos sintéticos
-      val desiredSizeInGB = 1 // Tamaño en GB del dataset
+      val desiredSizeInGB = 0.05 // Tamaño en GB del dataset
       val maxProductId = 99999
       val maxSellerId = 9
       var startDate = LocalDate.of(2020, 7, 11) // El dataset original termina el 10/7/2020, de modo que añadimos días a partir del siguiente
